@@ -15,7 +15,7 @@ namespace GraphMAI.Data
 
         public async Task<GraphEntity> GetGraphByIdAsync(int id)
         {
-            var result = await GetAll<GraphEntity>().FirstOrDefaultAsync(g => g.Id == id);
+            var result = await GetAll<GraphEntity>().Include(g => g.Edges).FirstOrDefaultAsync(g => g.Id == id);
             if (result == null) throw new ArgumentException($"There is no GraphEntity with id: {id}");
             return result;
         }
