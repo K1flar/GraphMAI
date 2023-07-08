@@ -1,0 +1,9 @@
+header {
+    background-color: #272736;
+    height: 80px;
+}
+
+header .container {
+    display: flex;
+    align-items: center;
+}
