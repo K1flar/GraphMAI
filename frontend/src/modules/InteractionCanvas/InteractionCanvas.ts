@@ -1,8 +1,11 @@
+import Graph from "../Graph/Graph"
 import Vertex from "./Vertex"
 
 class InteractionCanvas {
     private readonly _canvas: HTMLCanvasElement
     private readonly _ctx: CanvasRenderingContext2D
+
+    private readonly _graph: Graph
 
     private _countVertices: number
     private _vertices: Vertex[] = []
@@ -10,12 +13,15 @@ class InteractionCanvas {
     private _isSelectVertex: boolean = false
     private _selectedVertices: Vertex[] = []
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, graph: Graph) {
         // настройка холста
         this._canvas = canvas as HTMLCanvasElement
         this._ctx = canvas.getContext("2d") as CanvasRenderingContext2D
         this._canvas.width = canvas.clientWidth
         this._canvas.height = canvas.clientHeight
+
+        // инициализация графа
+        this._graph = graph
 
         // настройка текста
         this._ctx.font = '14px Verdana'
@@ -35,6 +41,9 @@ class InteractionCanvas {
 
     public handleClick(e: React.MouseEvent, setIsVisibleModal: (a: boolean) => void) {
         let [x, y] = [e.pageX - this._canvas.offsetLeft, e.pageY - this._canvas.offsetTop]
+
+        // снять выделение с несозданного ребра
+        if (this._isSelectVertex && this._selectedVertices.length === 2) this.resetSelectedVertices()
 
         // проверить, что клик произошел на вершину
         let sv: Vertex | undefined = this.selectedVertex(x, y)
@@ -86,6 +95,7 @@ class InteractionCanvas {
     }
 
     public addNewEdge(u: number, v: number, weight: number, isDirected: boolean): void { 
+        console.log(u, v, weight, isDirected)
         // отрисовка ребра
         this.drawEdge(this._selectedVertices[0], this._selectedVertices[1], weight, isDirected)
     }

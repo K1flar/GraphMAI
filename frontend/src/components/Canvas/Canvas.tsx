@@ -1,16 +1,19 @@
 import React, {useState, useEffect, useRef} from 'react'
 import Modal from '../Modal/Modal';
-import ModalAddEdge from './ModalAddEdge/ModalAddEdge';
+import ModalAddEdge from './ModalAddEdge/ModalAddEdge'
 
 import cls from './Canvas.module.css'
-import InteractionCanvas from '../../modules/InteractionCanvas/InteractionCanvas';
+
+import InteractionCanvas from '../../modules/InteractionCanvas/InteractionCanvas'
+import Graph from '../../modules/Graph/Graph'
 
 interface CanvasProps {
+    graph: Graph;
     name: string;
     info?: string
 }
 
-const Canvas = ({ name, info }: CanvasProps) => {
+const Canvas = ({graph, name, info }: CanvasProps) => {
     let [isVisibleModal, setIsVisibleModal] = useState<boolean>(false)
 
     let canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,7 +21,7 @@ const Canvas = ({ name, info }: CanvasProps) => {
     useEffect(() => {
         const canvasEl = canvasRef.current 
         if (!canvasEl) return
-        canvRef.current = new InteractionCanvas(canvasEl)       
+        canvRef.current = new InteractionCanvas(canvasEl, graph)       
     }, [])
     return (
         <div>
