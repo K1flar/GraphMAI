@@ -1,0 +1,28 @@
+.inputRadio {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.inputRadio input,
+.inputRadio label {
+    cursor: pointer;
+}
+
+.inputRadio label { transition: .3s; }
+
+.inputRadio label:hover { color: #4B37D3; }
+
+.input {
+    appearance: none;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    outline: 1px solid #272736;
+    border: 1px solid #F1F1FF;
+    transition: .3s;
+}
+
+.input:checked {
+    background-color: #4B37D3;
+}
