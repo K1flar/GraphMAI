@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import cls from './Select.module.css'
 
 interface SelectProps {
@@ -6,7 +6,7 @@ interface SelectProps {
     list: string[];
 }
 
-const Select = ({toggle, list}: SelectProps) => {
+const Select = ({ toggle, list }: SelectProps) => {
     let [classes, setClasses] = useState([cls.select])
 
     function changeClasses() {
@@ -18,12 +18,12 @@ const Select = ({toggle, list}: SelectProps) => {
         }
         else setClasses([...classes, cls.select_show])
     }
-    
+
     return (
         <div>
-            <div onClick = {changeClasses}
-                className={[...classes].join(' ')}>
-                <button className={cls.toggle}>{toggle}</button>
+            <div className={[...classes].join(' ')}>
+                <button onClick={changeClasses}
+                    className={cls.toggle}>{toggle}</button>
                 <div className={cls.dropdawn}>
                     <ul className={cls.options}>
                         {list.map(e => <li className={cls.option} key={e}>{e}</li>)}

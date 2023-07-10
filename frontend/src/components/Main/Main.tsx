@@ -1,6 +1,6 @@
 import React from 'react'
-import Select from '../UI/select/Select'
-import Canva from '../Canva/Canva'
+import Select from '../UI/Select/Select'
+import Canvas from '../Canvas/Canvas'
 import cls from './Main.module.css'
 
 const Main = () => {
@@ -14,7 +14,7 @@ const Main = () => {
                         <Select toggle='Задание графа' list={['Матрица смежности', 'Список ребер', 'Список смежности']} />
                         <Select toggle='Выбрать алгоритм' list={['Компоненты связности', 'Остовное дерево', 'Гамильтонов цикл', 'Максимальный поток', 'Максимальное паросочетание']} />
                     </div>
-                    <Canva name='Выберете алгоритм'/>
+                    <Canvas name='Выберете алгоритм'/>
                 </div>
             </main>
         </div>
