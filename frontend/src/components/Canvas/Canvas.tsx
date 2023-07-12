@@ -24,10 +24,12 @@ const Canvas = ({graph, name, info }: CanvasProps) => {
         canvRef.current = new InteractionCanvas(canvasEl, graph)    
     }, [])
 
-    useEffect(() => {
-        canvRef.current!.drawGraph()
-        console.log("чудо")
-    })
+    useEffect(() => { 
+        canvRef.current = new InteractionCanvas(canvasRef.current!, graph)
+        canvRef.current.drawGraph()
+    }, [graph])
+
+
     return (
         <div>
             {
