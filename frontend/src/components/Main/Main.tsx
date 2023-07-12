@@ -41,11 +41,8 @@ const Main = () => {
     }
 
     function createGraph(text: string) {
-        console.log(graph)
-        console.log("меняю")
         setGraph(new Graph(dictParse[flag](text)))
         setIsVisibleModal(false)
-        console.log(graph)
     }
 
     return (
