@@ -1,41 +1,44 @@
-import React, { useState } from 'react'
+import React, {useState, ReactNode} from "react"
+
 import cls from './Select.module.css'
 
 interface SelectProps {
-    toggle: string;
-    list: string[];
+    selected?: Option;
+    options: Option[];
+    placeholder: string;
+    action?(value: string | number): void;
 }
 
-const Select = ({ toggle, list }: SelectProps) => {
-    let [classes, setClasses] = useState([cls.select])
-    let [newToggle, setNewToggle] = useState<string>(toggle)
+type Option = {
+    title: string;
+    value: string | number
+}
 
-    function changeClasses() {
-        let index = classes.indexOf(cls.select_show)
-        if (index !== -1) {
-            let t = [...classes]
-            t.splice(index, 1)
-            setClasses(t)
-        }
-        else setClasses([...classes, cls.select_show])
+const Select = ({selected, options, placeholder, action}: SelectProps) => {
+    let [isOpen, setIsOpen] = useState<boolean>(false)
+    let [toggle, setToggle] = useState<string>(placeholder)
+
+    function handleClick({title, value}: Option) {
+        setIsOpen(false)
+        setToggle(title)
+        action?.(value)
     }
 
-    function selectItem(item: string) {
-        setNewToggle(item)
-        changeClasses()
-    }
-
+    let classes = [cls.select]
+    if (isOpen) classes.push(cls.open)
+    console.log(classes.join(' '))
     return (
-        <div>
-            <div className={[...classes].join(' ')}>
-                <button onClick={changeClasses}
-                    className={cls.toggle}>{newToggle}</button>
-                <div className={cls.dropdawn}>
-                    <ul className={cls.options}>
-                        {list.map(e => <li className={cls.option} key={e} onClick={() => {selectItem(e)}}>{e}</li>)}
-                    </ul>
-                </div>
+        <div className={classes.join(' ')}>
+            <div style={{minWidth: `${options.reduce((acc, op) => acc < op.title.length ? op.title.length : acc, -Infinity) * 10 + 20}px`}} 
+                 className={cls.selected} 
+                 onClick={() => setIsOpen(!isOpen)}>
+                    {toggle}
             </div>
+            {
+                <ul className={cls.options}>
+                    {options.map(({title, value}) => <option className = {cls.option} key={value} value={value} onClick={() => handleClick({title, value})}>{title}</option>)}
+                </ul>
+            }
         </div>
     );
 }
