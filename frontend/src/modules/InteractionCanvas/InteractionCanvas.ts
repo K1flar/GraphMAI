@@ -28,7 +28,7 @@ class InteractionCanvas {
 
         // инициализация графа
         this._graph = graph
-
+    
         // настройка текста
         this._ctx.font = '14px Verdana'
         this._ctx.textAlign = 'center'

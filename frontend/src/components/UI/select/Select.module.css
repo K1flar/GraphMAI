@@ -1,109 +1,50 @@
-.select {position: relative;}
+.select { 
+    position: relative;
+}
 
-.toggle {
+.open {}
+
+.selected {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: none;
-    background: inherit;
-    font: inherit;
     padding: 14px 10px 14px 20px;
     border-bottom: 2px solid #3E3ED9;
     cursor: pointer;
-    min-width: 300px;
 }
 
-.toggle::after {
+.selected::after {
     content: '';
     width: 10px;
     height: 10px;
-    transition: .1s;
+    transition: .3s;
     background: url('../../../../public/img/Polygon.svg') no-repeat 50% 50%;
 }
 
-.dropdawn {
-    position: absolute;
-    display: none;
-}
-
-.select_show .dropdawn {display: block;}
-
-.select_show .toggle::after {transform: rotate(180deg);}
+.open .selected::after { transform: rotate(180deg); }
 
 .options {
+    display: none;
+    position: absolute;
     padding: 20px;
     border-radius: 20px;
     margin-top: 14px;
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
     background-color: #7B79FF;
 }
 
+.open .options { display: flex; }
+
 .option {
     color: #FFF;
-    transition: .1s;
-}
-
-.select_show .option:hover {
-    cursor: pointer;
-    color: #D3CDFF;
-}
-
-/* .select {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.toggle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    border: none;
-    background: inherit;
-    font: inherit;
-    padding: 14px 10px 14px 20px;
-    border-bottom: 2px solid #3E3ED9;
-    position: relative;
-    cursor: pointer;
-}
-
-.toggle::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: url('../../../../public/img/Polygon.svg') no-repeat;
-}
-
-.dropdawn {
-    position: absolute;
-    opacity: 0;
-}
-
-.select_show .dropdawn {
-    opacity: 1;
-}
-
-.options {
-    padding: 20px;
-    border-radius: 20px;
-    margin-top: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    background-color: #F1F1FF;
-}
-
-.option {
-    transition: .1s;
+    transition: .3s;
 }
 
 .option:hover {
     cursor: pointer;
-    color: #4B37D3;
-} */
+    color: #D3CDFF;
+}
