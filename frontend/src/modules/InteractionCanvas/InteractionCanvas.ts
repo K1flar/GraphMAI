@@ -28,7 +28,7 @@ class InteractionCanvas {
 
         // инициализация графа
         this._graph = graph
-    
+
         // настройка текста
         this._ctx.font = '14px Verdana'
         this._ctx.textAlign = 'center'
@@ -39,9 +39,9 @@ class InteractionCanvas {
 
     public get selectedVertices(): [number, number] | undefined { return this._selectedVertices ? [this._selectedVertices[0].n, this._selectedVertices[1].n] : undefined }
 
-    public resetSelectedVertices(): void { 
+    public resetSelectedVertices(): void {
         for (let v of this._selectedVertices) this.drawVertex(v)
-        this._selectedVertices = [] 
+        this._selectedVertices = []
         this._isSelectVertex = false
     }
 
@@ -73,18 +73,23 @@ class InteractionCanvas {
         }
     }
 
-    private addNewVertex(x: number, y: number, n?: number): Vertex {
-        // определение номера вершины
-        if (!n) n = this._countVertices + 1
-        // добавление в граф
-        this._graph.addEdge(n, n, 0)
-        // добавление вершины
+    private createNewVertexOnCanvas(x: number, y: number, n: number): Vertex {
+        // создание вершины
         let v = new Vertex(n, x, y)
         this._vertices.push(v)
         this._countVertices++
         // отрисовка вершины
         this.drawVertex(v)
         return v
+    }
+
+    private addNewVertex(x: number, y: number, n?: number): void {
+        // определение номера вершины
+        if (!n) n = this._countVertices + 1
+        // добавление в граф
+        this._graph.addEdge(n, n, 0)
+        // добавление на canvas
+        this.createNewVertexOnCanvas(x, y, n)
     }
 
     private drawVertex(v: Vertex, color?: string): void {
@@ -106,7 +111,7 @@ class InteractionCanvas {
         return undefined
     }
 
-    public addNewEdge(u: number, v: number, weight: number, isDirected: boolean): void { 
+    public addNewEdge(u: number, v: number, weight: number, isDirected: boolean): void {
         // добавление ребра в граф
         this._graph.addEdge(u, v, weight)
         if (!isDirected) this._graph.addEdge(v, u, weight)
@@ -177,9 +182,9 @@ class InteractionCanvas {
         // очистка canvas
         this._ctx.clearRect(0, 0, this._width, this._height)
         for (let e of this._graph.edges) {
-            let u: Vertex = this.vertexOnCanvas(e.u) || this.addNewVertex(Math.random()*this._width, Math.random()*this._height, e.u)
-            let v: Vertex = this.vertexOnCanvas(e.v) || this.addNewVertex(Math.random()*this._width, Math.random()*this._height, e.v)
-            console.log(u.n, v.n)
+            let u: Vertex = this.vertexOnCanvas(e.u) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.u)
+            let v: Vertex = this.vertexOnCanvas(e.v) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.v)
+
             if (this._graph.isDirected(u.n, v.n)) this.drawEdge(u, v, e.weight, true)
             else this.drawEdge(u, v, e.weight, false)
         }
