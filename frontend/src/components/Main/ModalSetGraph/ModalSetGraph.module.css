@@ -1,0 +1,21 @@
+.modal {
+    min-width: 800px;
+    background-color: #F1F1FF;
+    border-radius: 20px;
+}
+
+.title {
+    background-color: #DFDFFF;
+    border-radius: 20px;
+    padding: 21px 25px;
+}
+
+.content {
+    padding: 25px 25px 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;   
+    align-items: flex-end;
+}
+
+.content textarea {min-height: 400px;}

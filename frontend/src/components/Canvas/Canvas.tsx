@@ -21,8 +21,13 @@ const Canvas = ({graph, name, info }: CanvasProps) => {
     useEffect(() => {
         const canvasEl = canvasRef.current 
         if (!canvasEl) return
-        canvRef.current = new InteractionCanvas(canvasEl, graph)       
+        canvRef.current = new InteractionCanvas(canvasEl, graph)    
     }, [])
+
+    useEffect(() => {
+        canvRef.current!.drawGraph()
+        console.log("чудо")
+    })
     return (
         <div>
             {

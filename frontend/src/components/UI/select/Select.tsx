@@ -1,4 +1,5 @@
 import React, {useState, ReactNode} from "react"
+import { Option } from "../../../types";
 
 import cls from './Select.module.css'
 
@@ -7,11 +8,6 @@ interface SelectProps {
     options: Option[];
     placeholder: string;
     action?(value: string | number): void;
-}
-
-type Option = {
-    title: string;
-    value: string | number
 }
 
 const Select = ({selected, options, placeholder, action}: SelectProps) => {
@@ -26,7 +22,7 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
 
     let classes = [cls.select]
     if (isOpen) classes.push(cls.open)
-    console.log(classes.join(' '))
+    
     return (
         <div className={classes.join(' ')}>
             <div style={{minWidth: `${options.reduce((acc, op) => acc < op.title.length ? op.title.length : acc, -Infinity) * 10 + 20}px`}} 
