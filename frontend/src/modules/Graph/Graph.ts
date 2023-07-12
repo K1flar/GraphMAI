@@ -19,7 +19,7 @@ class Graph {
     }
 
     public isDirected(u: number, v: number): boolean {
-        if (this.isEdge(u, v) && this.isEdge(v, u)) return true
+        if (!(this.isEdge(u, v) && this.isEdge(v, u))) return true
         return false
     }
 }

@@ -28,7 +28,7 @@ class InteractionCanvas {
 
         // инициализация графа
         this._graph = graph
-
+    
         // настройка текста
         this._ctx.font = '14px Verdana'
         this._ctx.textAlign = 'center'
@@ -73,15 +73,18 @@ class InteractionCanvas {
         }
     }
 
-    private addNewVertex(x: number, y: number): void {
-        let n = ++this._countVertices // номер новой вершины
+    private addNewVertex(x: number, y: number, n?: number): Vertex {
+        // определение номера вершины
+        if (!n) n = this._countVertices + 1
         // добавление в граф
         this._graph.addEdge(n, n, 0)
         // добавление вершины
         let v = new Vertex(n, x, y)
         this._vertices.push(v)
+        this._countVertices++
         // отрисовка вершины
         this.drawVertex(v)
+        return v
     }
 
     private drawVertex(v: Vertex, color?: string): void {
@@ -112,7 +115,9 @@ class InteractionCanvas {
         this.drawEdge(this._selectedVertices[0], this._selectedVertices[1], weight, isDirected)
     }
 
-    private drawEdge(u: Vertex, v: Vertex, weight: number, isDirected: boolean = true) {
+    private drawEdge(u: Vertex, v: Vertex, weight: number, isDirected: boolean = true): void {
+        if (u.n === v.n) return
+
         let dx = v.x - u.x // перемещение по x
         let dy = v.y - u.y // перемещение по y
 
@@ -153,6 +158,8 @@ class InteractionCanvas {
         this._ctx.fillStyle = '#272736'
         this._ctx.fillText(`${weight}`, (u.x + v.x) / 2, (u.y + v.y) / 2)
 
+        this.drawVertex(u)
+        this.drawVertex(v)
         this._ctx.closePath()
     }
 
@@ -164,6 +171,25 @@ class InteractionCanvas {
         this._ctx.arcTo(x, y + h, x, y + h - r, r)
         this._ctx.arcTo(x, y, x + r, y, r)
         this._ctx.closePath()
+    }
+
+    public drawGraph(): void {
+        // очистка canvas
+        this._ctx.clearRect(0, 0, this._width, this._height)
+        for (let e of this._graph.edges) {
+            let u: Vertex = this.vertexOnCanvas(e.u) || this.addNewVertex(Math.random()*this._width, Math.random()*this._height, e.u)
+            let v: Vertex = this.vertexOnCanvas(e.v) || this.addNewVertex(Math.random()*this._width, Math.random()*this._height, e.v)
+            console.log(u.n, v.n)
+            if (this._graph.isDirected(u.n, v.n)) this.drawEdge(u, v, e.weight, true)
+            else this.drawEdge(u, v, e.weight, false)
+        }
+        console.log(this._graph.edges)
+    }
+
+    private vertexOnCanvas(nv: number): Vertex | undefined {
+        for (let i = 0; i < this._vertices.length; i++)
+            if (this._vertices[i].n === nv) return this._vertices[i]
+        return undefined
     }
 }
 
