@@ -187,8 +187,8 @@ class InteractionCanvas {
         // очистка canvas
         this._ctx.clearRect(0, 0, this._width, this._height)
         for (let e of this._graph.edges) {
-            let u: Vertex = this.vertexOnCanvas(e.u) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.u)
-            let v: Vertex = this.vertexOnCanvas(e.v) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.v)
+            let u: Vertex = this.vertexOnCanvas(e.from) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.from)
+            let v: Vertex = this.vertexOnCanvas(e.to) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.to)
 
             if (this._graph.isDirected(u.n, v.n)) this.drawEdge(u, v, e.weight, true)
             else this.drawEdge(u, v, e.weight, false)

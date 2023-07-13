@@ -4,8 +4,8 @@ export type Option = {
 }
 
 export interface Edge {
-    u: number;
-    v: number;
+    from: number;
+    to: number;
     weight: number;
 }
 

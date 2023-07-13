@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Option, IGetAll } from '../../types'
+import { Edge, Option, IGetAll } from '../../types'
 import Select from '../UI/Select/Select'
 import Canvas from '../Canvas/Canvas'
 import Modal from '../Modal/Modal'
@@ -56,6 +56,13 @@ const Main = () => {
         setFlag(value as 'm' | 'e' | 'l')
     }
 
+    async function actionSelectGraph(value: number) {
+        try {
+            const response = await API.get<Edge[]>('GetById', { params: {id: value} })
+            setGraph(new Graph(response.data))
+        } catch (e) {console.log(e)}
+    }
+
     function createGraph(text: string) {
         setGraph(new Graph(dictParse[flag](text)))
         setIsVisibleModal(false)
@@ -76,7 +83,7 @@ const Main = () => {
                     <div className={cls.options}>
                         <Select action={actionSelectSetGraph} options={optionsSetGraph} placeholder='Задание графа' />
                         <Select options={optionsSelectAlg} placeholder='Выбрать алгоритм' />
-                        <Select options={names} placeholder='Выбрать граф' />
+                        <Select action={actionSelectGraph} options={names} placeholder='Выбрать граф' />
                     </div>
                     <Canvas graph={graph} name='Выберете алгоритм' />
                     <SaveGraph graph={graph} fetchNames={fetchNames}/>
