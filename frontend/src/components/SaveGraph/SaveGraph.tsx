@@ -19,7 +19,9 @@ const SaveGraph = ({graph, fetchNames}: SaveGraphProps) => {
     async function handleSubmit(e: React.MouseEvent) {
         e.stopPropagation()
         let newName = name || `Graph #${Date.now()}`
-        if (name = '') setName(newName)
+        if (!name) setName(newName)
+
+        
         const data: ISaveGraph = {
             name: newName,
             edges: graph.edges

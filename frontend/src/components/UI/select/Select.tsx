@@ -33,9 +33,11 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
                     {toggle}
             </div>
             {
-                <ul className={cls.options}>
-                    {options.map(({title, value}) => <option className = {cls.option} key={value} value={value} onClick={() => handleClick({title, value})}>{title}</option>)}
-                </ul>
+                <div className={cls.dropdown}>
+                    <ul className={cls.options}>
+                        {options.map(({title, value}) => <option className = {cls.option} key={value} value={value} onClick={() => handleClick({title, value})}>{title}</option>)}
+                    </ul>
+                </div>
             }
         </div>
     );
