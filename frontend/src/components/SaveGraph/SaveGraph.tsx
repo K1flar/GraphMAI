@@ -30,6 +30,7 @@ const SaveGraph = ({graph, fetchNames}: SaveGraphProps) => {
         try {
             const resp = await API.post('Save', data)
             fetchNames()
+            setName('')
             console.log(resp)
         } catch (e) {console.log(e)}
     }
