@@ -27,6 +27,8 @@
 .open .selected::after { transform: rotate(180deg); }
 
 .options {
+    max-height: 400px;
+    overflow: auto;
     display: none;
     position: absolute;
     padding: 20px;

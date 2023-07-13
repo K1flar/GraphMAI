@@ -1,4 +1,4 @@
-import { Edge } from '../types'
+import { Edge } from "../../types"
 
 class Graph {
     private _edges: Edge[] = []
@@ -10,7 +10,7 @@ class Graph {
     public get edges(): Edge[] { return JSON.parse(JSON.stringify(this._edges)) }
 
     public addEdge(u: number, v: number, weight: number): void {
-        this._edges.push({u, v, weight})
+        this._edges.push({u: u, v: v, weight: weight})
     }
 
     public isEdge(u: number, v: number): boolean {

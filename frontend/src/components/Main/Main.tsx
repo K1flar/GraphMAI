@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Option } from '../../types'
+import { Option, IGetAll } from '../../types'
 import Select from '../UI/Select/Select'
 import Canvas from '../Canvas/Canvas'
 import Modal from '../Modal/Modal'
@@ -10,7 +10,7 @@ import cls from './Main.module.css'
 
 import Graph from '../../modules/Graph/Graph'
 import { parseAdjacencyMatrix, parseListOfAdjacency, parseListOfEdges } from '../../modules/Parser/Parser'
-import axios from 'axios'
+import API from '../../API/api'
 
 const Main = () => {
     let [graph, setGraph] = useState<Graph>(new Graph([]))
@@ -18,20 +18,17 @@ const Main = () => {
     let [flag, setFlag] = useState<'m' | 'e' | 'l'>('m') // флаг по которому определяется задание графа
     let [names, setNames] = useState<Option[]>([])
 
+    async function fetchNames(){
+        try {
+            const data = (await API.get<IGetAll[]>('GetAll')).data
+            let newNames: Option[] = []
+            data.forEach(e => newNames.push({title: e.name, value: e.id}))
+            setNames(newNames)
+        } catch(e) {console.log(e)}
+    }
+
     useEffect(() => {
-        const fetchNames = async () => {
-            try {
-            const data = await axios.get("http://localhost:7175/api/GetAll")
-            console.log(data)
-            } catch (e) {console.log(e)}
-        }
         fetchNames()
-        
-        setNames([
-            {title: 'Graph #1', value: 1},
-            {title: 'Graph #2', value: 2},
-            {title: 'Graph #3', value: 3}
-        ])
     }, [])
 
     let optionsSetGraph: Option[] = [
@@ -82,7 +79,7 @@ const Main = () => {
                         <Select options={names} placeholder='Выбрать граф' />
                     </div>
                     <Canvas graph={graph} name='Выберете алгоритм' />
-                    <SaveGraph graph={graph}/>
+                    <SaveGraph graph={graph} fetchNames={fetchNames}/>
                 </div>
             </main>
         </div>

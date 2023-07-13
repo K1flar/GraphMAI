@@ -5,16 +5,37 @@ import Button from '../UI/Button/Button'
 import cls from './SaveGraph.module.css'
 import Graph from '../../modules/Graph/Graph'
 
+import API from '../../API/api'
+import { Option, ISaveGraph } from '../../types'
+
 interface SaveGraphProps {
     graph: Graph;
+    fetchNames(): void;
 }
 
-const SaveGraph = ({graph}: SaveGraphProps) => {
+const SaveGraph = ({graph, fetchNames}: SaveGraphProps) => {
     let [name, setName] = useState<string>('')
+
+    async function handleSubmit(e: React.MouseEvent) {
+        e.stopPropagation()
+        let newName = name || `Graph #${Date.now()}`
+        if (name = '') setName(newName)
+        const data: ISaveGraph = {
+            name: newName,
+            edges: graph.edges
+        }
+        console.log(data)
+        try {
+            const resp = await API.post('Save', data)
+            fetchNames()
+            console.log(resp)
+        } catch (e) {console.log(e)}
+    }
+
     return (
         <div className={cls.saveGraph}>
             <InputText placeholder='Название' value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
-            <Button text='Сохранить граф' onClick={() => console.log(graph)}/>
+            <Button text='Сохранить граф' onClick={(e: React.MouseEvent) => handleSubmit(e)}/>
         </div>
     );
 }
