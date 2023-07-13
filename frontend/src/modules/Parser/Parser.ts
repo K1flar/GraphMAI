@@ -1,4 +1,4 @@
-import { Edge } from '../types'
+import { Edge } from "../../types"
 
 export  function parseAdjacencyMatrix(text: string): Edge[] {
     let edges: Edge[] = []
