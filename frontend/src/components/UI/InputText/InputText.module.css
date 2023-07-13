@@ -4,10 +4,9 @@
     outline: none;
     background-color: inherit;
     font: inherit;
+    color: #272736;
+    line-height: 158.023%;
+    letter-spacing: 0.32px;
     border-bottom: 2px solid #4B37D3;
     padding: 14px 5px;
-}
-
-.input:checked {
-    outline: none;
 }
