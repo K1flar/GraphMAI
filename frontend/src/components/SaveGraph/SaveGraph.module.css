@@ -1,0 +1,6 @@
+.saveGraph {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 65px;
+    margin-top: 25px;
+}

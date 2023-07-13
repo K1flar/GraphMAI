@@ -8,6 +8,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     align-items: center;
     border: none;
     padding: 14px 10px 14px 10px;
@@ -35,6 +36,7 @@
     align-items: flex-start;
     gap: 14px;
     background-color: #7B79FF;
+    z-index: 2;
 }
 
 .open .options { display: flex; }
