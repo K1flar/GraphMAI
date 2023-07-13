@@ -10,11 +10,11 @@ class Graph {
     public get edges(): Edge[] { return JSON.parse(JSON.stringify(this._edges)) }
 
     public addEdge(u: number, v: number, weight: number): void {
-        this._edges.push({u: u, v: v, weight: weight})
+        this._edges.push({from: u, to: v, weight: weight})
     }
 
     public isEdge(u: number, v: number): boolean {
-        for (let e of this._edges) if (u === e.u && v === e.v) return true
+        for (let e of this._edges) if (u === e.from && v === e.to) return true
         return false
     }
 
