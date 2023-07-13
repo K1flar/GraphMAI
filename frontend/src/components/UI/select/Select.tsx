@@ -22,9 +22,11 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
 
     let classes = [cls.select]
     if (isOpen) classes.push(cls.open)
+
+    window.addEventListener('click', () => setIsOpen(false))
     
     return (
-        <div className={classes.join(' ')}>
+        <div className={classes.join(' ')} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
             <div style={{minWidth: `${options.reduce((acc, op) => acc < op.title.length ? op.title.length : acc, -Infinity) * 10 + 20}px`}} 
                  className={cls.selected} 
                  onClick={() => setIsOpen(!isOpen)}>

@@ -11,6 +11,7 @@ class InteractionCanvas {
 
     private _countVertices: number
     private _vertices: Vertex[] = []
+    private _verticesOnCanvas: boolean[] = []
 
     private _isSelectVertex: boolean = false
     private _selectedVertices: Vertex[] = []
@@ -80,16 +81,20 @@ class InteractionCanvas {
         this._countVertices++
         // отрисовка вершины
         this.drawVertex(v)
+        // добавление в существующие
+        this._verticesOnCanvas[n] = true
         return v
     }
 
     private addNewVertex(x: number, y: number, n?: number): void {
         // определение номера вершины
         if (!n) n = this._countVertices + 1
+        if (this._verticesOnCanvas[n]) n = this._verticesOnCanvas.length
         // добавление в граф
         this._graph.addEdge(n, n, 0)
         // добавление на canvas
         this.createNewVertexOnCanvas(x, y, n)
+        console.log(this._countVertices)
     }
 
     private drawVertex(v: Vertex, color?: string): void {
