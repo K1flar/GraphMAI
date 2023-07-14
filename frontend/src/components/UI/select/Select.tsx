@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
+import {useClickAway} from 'react-use'
 import { Option } from "../../../types";
 
 import cls from './Select.module.css'
@@ -13,6 +14,10 @@ interface SelectProps {
 const Select = ({selected, options, placeholder, action}: SelectProps) => {
     let [isOpen, setIsOpen] = useState<boolean>(false)
     let [toggle, setToggle] = useState<string>(placeholder)
+    const ref = useRef(null)
+    useClickAway(ref, () => {
+        setIsOpen(false)
+    });
 
     function handleClick({title, value}: Option) {
         setIsOpen(false)
@@ -22,16 +27,12 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
 
     let classes = [cls.select]
     if (isOpen) classes.push(cls.open)
-
-    useEffect(() => {
-        window.addEventListener('mouseup', () => setIsOpen(false))
-    }, [])
     
     return (
-        <div className={classes.join(' ')} >
+        <div className={classes.join(' ')} ref={ref}>
             <div style={{minWidth: `${options.reduce((acc, op) => acc < op.title.length ? op.title.length : acc, -Infinity) * 10 + 20}px`}} 
                  className={cls.selected} 
-                 onClick={() => setIsOpen(!isOpen && Boolean(options.length))}>
+                 onClick={(e: React.MouseEvent) => {setIsOpen(!isOpen)}}>
                     {toggle}
             </div>
             {
