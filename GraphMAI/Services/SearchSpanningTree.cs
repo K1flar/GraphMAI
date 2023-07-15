@@ -30,8 +30,8 @@ namespace GraphMAI.Services
             // бегаем по отсортированному списку ребер и если обе вершины не связны, то добавляем ребро в список
             foreach (var edge in edges)
             {
-                int set1 = sets[edge.Item1];
-                int set2 = sets[edge.Item2];
+                int set1 = sets[edge.Item1 - 1];
+                int set2 = sets[edge.Item2 - 1];
 
                 if (set1 != set2)
                 {
