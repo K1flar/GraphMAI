@@ -6,14 +6,15 @@ import cls from './SaveGraph.module.css'
 import Graph from '../../modules/Graph/Graph'
 
 import API from '../../API/api'
-import { Option, ISaveGraph } from '../../types'
+import { Option, ISaveGraph, status } from '../../types'
 
 interface SaveGraphProps {
     graph: Graph;
     fetchNames(): void;
+    setInfo(s: string, st: status): void;
 }
 
-const SaveGraph = ({graph, fetchNames}: SaveGraphProps) => {
+const SaveGraph = ({graph, fetchNames, setInfo}: SaveGraphProps) => {
     let [name, setName] = useState<string>('')
 
     async function handleSubmit(e: React.MouseEvent) {
@@ -31,8 +32,12 @@ const SaveGraph = ({graph, fetchNames}: SaveGraphProps) => {
             const resp = await API.post('Save', data)
             fetchNames()
             setName('')
+            setInfo(`Граф "${data.name}" сохранен`, 'ok')
             console.log(resp)
-        } catch (e) {console.log(e)}
+        } catch (e) {
+            console.log(e)
+            setInfo('Не удалось сохранить граф', 'error')
+        }
     }
 
     return (

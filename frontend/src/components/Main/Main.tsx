@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import useInfo from '../../Hooks/useInfo'
 import { Edge, Option, IGetAll } from '../../types'
 import Select from '../UI/Select/Select'
 import Canvas from '../Canvas/Canvas'
@@ -18,13 +19,17 @@ const Main = () => {
     let [flag, setFlag] = useState<'m' | 'e' | 'l'>('m') // флаг по которому определяется задание графа
     let [names, setNames] = useState<Option[]>([])
 
-    async function fetchNames(){
+    let [name, setName] = useState<string>('Выберите алгоритм')
+    let [info, status, setInfo] = useInfo('', 'default')
+
+
+    async function fetchNames() {
         try {
             const data = (await API.get<IGetAll[]>('GetAll')).data
             let newNames: Option[] = []
-            data.forEach(e => newNames.push({title: e.name, value: e.id}))
+            data.forEach(e => newNames.push({ title: e.name, value: e.id }))
             setNames(newNames)
-        } catch(e) {console.log(e)}
+        } catch (e) { console.log(e) }
     }
 
     useEffect(() => {
@@ -58,9 +63,9 @@ const Main = () => {
 
     async function actionSelectGraph(value: number) {
         try {
-            const response = await API.get<Edge[]>('GetById', { params: {id: value} })
+            const response = await API.get<Edge[]>('GetById', { params: { id: value } })
             setGraph(new Graph(response.data))
-        } catch (e) {console.log(e)}
+        } catch (e) { console.log(e) }
     }
 
     function createGraph(text: string) {
@@ -73,7 +78,7 @@ const Main = () => {
             {
                 isVisibleModal &&
                 <Modal setVisible={setIsVisibleModal}>
-                    <ModalSetGraph f={flag!} createGraph={createGraph}/>
+                    <ModalSetGraph f={flag!} createGraph={createGraph} />
                 </Modal>
             }
             <main>
@@ -85,8 +90,8 @@ const Main = () => {
                         <Select options={optionsSelectAlg} placeholder='Выбрать алгоритм' />
                         <Select action={actionSelectGraph} options={names} placeholder='Выбрать граф' />
                     </div>
-                    <Canvas graph={graph} name='Выберете алгоритм' />
-                    <SaveGraph graph={graph} fetchNames={fetchNames}/>
+                    <Canvas graph={graph} name={name} info={info} status={status} />
+                    <SaveGraph graph={graph} fetchNames={fetchNames} setInfo={setInfo} />
                 </div>
             </main>
         </div>

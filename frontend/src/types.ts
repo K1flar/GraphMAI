@@ -3,6 +3,8 @@ export type Option = {
     value: string | number;
 }
 
+export type status = 'default' | 'error' | 'ok'
+
 export interface Edge {
     from: number;
     to: number;
