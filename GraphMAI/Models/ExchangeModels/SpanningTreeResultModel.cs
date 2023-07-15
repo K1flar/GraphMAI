@@ -2,9 +2,9 @@
 {
     public class SpanningTreeResultModel
     {
-        public int summ;
+        public int summ { get; set; }
 
-        public List<EdgeGetModel> edges;
+        public List<EdgeGetModel> edges { get; set; }
 
         public SpanningTreeResultModel()
         {

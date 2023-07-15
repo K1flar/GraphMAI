@@ -4,15 +4,15 @@ namespace GraphMAI.Models.ExchangeModels
 {
     public class GraphConnectivityResultModel
     {
-        public IEnumerable<IEnumerable<int>> StrongComponents;
+        public IEnumerable<IEnumerable<int>> StrongComponents { get; set; }
 
-        public IEnumerable<IEnumerable<int>> WeekComponents;
+        public IEnumerable<IEnumerable<int>> WeekComponents { get; set; }
 
-        public int nStrongComponents;
-        public int nWeekComponents;
+        public int nStrongComponents { get; set; }
+        public int nWeekComponents {get; set; }
 
-        public string iStrongComponents;
-        public string iWeekComponents;
+        public string iStrongComponents { get; set; }
+        public string iWeekComponents { get; set; }
 
         public GraphConnectivityResultModel()
         {
@@ -20,6 +20,8 @@ namespace GraphMAI.Models.ExchangeModels
             WeekComponents= new List<IEnumerable<int>>();
             nStrongComponents = 0;
             nWeekComponents = 0;
+            iStrongComponents = "";
+            iWeekComponents = "";
 
         }
     }

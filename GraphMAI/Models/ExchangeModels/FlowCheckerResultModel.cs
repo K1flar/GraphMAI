@@ -2,10 +2,10 @@
 {
     public class FlowCheckerResultModel
     {
-        public string Info;
-        public int Size;
+        public string Info { get; set; }
+        public int Size { get; set; }
 
-        public List<EdgeGetModel> edges;
+        public List<EdgeGetModel> edges { get; set; }
 
         public FlowCheckerResultModel()
         {
