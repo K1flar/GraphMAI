@@ -24,8 +24,7 @@ export interface IGetAll {
 }
 
 export interface ICheckerConnectivity {
-    info: string;
-    components: number[][];
+    isDirected: boolean;
     strongComponents: number[][];
     weekComponents: number[][];
     nStrongComponents: number;

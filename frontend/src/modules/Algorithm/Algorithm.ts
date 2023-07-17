@@ -6,6 +6,7 @@ import InteractionCanvas from "../InteractionCanvas/InteractionCanvas"
 
 import { Edge, IAntColony, ICheckerConnectivity, IFindFlow, IFindPairs, ISpanningTree, status } from '../../types'
 import axios from "axios"
+import Vertex from '../InteractionCanvas/Vertex'
 
 export abstract class Algorithm {
     public status: status = 'default'
@@ -41,7 +42,24 @@ export class AlgorithmCheckerConnectivity extends Algorithm {
     public async displayResult(canv: InteractionCanvas) {
         try {
             const data = await (await this.fetchResponse<Edge[], ICheckerConnectivity>(this._graph.edges)).data
-            this._setInfo(`${data.iStrongComponents}\n${data.iWeekComponents}`, 'default')
+            let components: number[][] = []
+            if (data.isDirected) {
+                components = data.strongComponents
+                this._setInfo(`${data.iWeekComponents}. ${data.iStrongComponents}. Количество компонент сильной связности: ${data.nStrongComponents}. Количество компонент обычной связности: ${data.nWeekComponents}. Компоненты сильной связности:`, 'default')
+            } else {
+                components = data.weekComponents
+                this._setInfo(`${data.iWeekComponents}. Количество компонент связности: ${data.nWeekComponents}. Компоненты связности:`, 'default')
+            }
+            console.log(components)
+            const rand = () => Math.floor((Math.random()*(255 - 20) + 20)).toString(16).padStart(2, '0')
+            for (let component of components) {
+                console.log(rand())
+                const color = `#${rand()}${rand()}${rand()}`
+                console.log(color)
+                for (let v of component) {
+                    canv.drawVertex(canv.vertexOnCanvas(v+1) as Vertex, color)
+                }
+            }
         } catch(e) {
             if (axios.isAxiosError(e)) {
                 console.log(e)
@@ -117,7 +135,7 @@ export class AlgorithmFindFlow extends Algorithm {
     public async displayResult(canv: InteractionCanvas) {
         try {
             const data = (await this.fetchResponse<Edge[], IFindFlow>(this._graph.edges)).data
-            this._setInfo(`${data.info} - ${data.size}`, 'default')
+            this._setInfo(`${data.info}`, 'default')
             canv.drawGraph(new Graph(data.edges), '#29C30F')
             console.log(data)
         } catch(e) {

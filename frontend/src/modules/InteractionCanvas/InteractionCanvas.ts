@@ -110,7 +110,7 @@ class InteractionCanvas {
         console.log(this._countVertices)
     }
 
-    private drawVertex(v: Vertex, color?: string): void {
+    public drawVertex(v: Vertex, color?: string): void {
         // отрисовка круга
         this._ctx.beginPath()
         this._ctx.arc(v.x, v.y, this._rv, 0, 2 * Math.PI)
@@ -214,7 +214,7 @@ class InteractionCanvas {
         console.log(graph.edges)
     }
 
-    private vertexOnCanvas(nv: number): Vertex | false {
+    public vertexOnCanvas(nv: number): Vertex | false {
         for (let i = 0; i < this._vertices.length; i++)
             if (this._vertices[i].n === nv) return this._vertices[i]
         return false
