@@ -94,7 +94,7 @@ namespace GraphMAI.Controllers
             if (graph.IsDirected())
             {
                 bool isWeekConnected = GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix());
-                if (isWeekConnected) result.iWeekComponents = "Граф слабо связен";
+                if (isWeekConnected) result.iWeekComponents = "Граф связен";
                 else result.iWeekComponents = "Граф не связен";
 
                 result.WeekComponents = GraphFunctionality.GetСonnectivityComponentsByMatrix(graph.GetCorrelatedMatrix());
