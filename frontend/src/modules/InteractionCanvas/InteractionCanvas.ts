@@ -1,5 +1,8 @@
+import { Algorithm } from "../Algorithm/Algorithm"
 import Graph from "../Graph/Graph"
 import Vertex from "./Vertex"
+
+import { Edge } from "../../types"
 
 class InteractionCanvas {
     private readonly _canvas: HTMLCanvasElement
@@ -46,7 +49,7 @@ class InteractionCanvas {
         this._isSelectVertex = false
     }
 
-    public handleClick(e: React.MouseEvent, setIsVisibleModal: (a: boolean) => void) {
+    public handleClick(e: React.MouseEvent, setIsVisibleModal: (a: boolean) => void, alg?: Algorithm, setAlg?: (a: Algorithm | undefined) => void) {
         let [x, y] = [e.pageX - this._canvas.offsetLeft, e.pageY - this._canvas.offsetTop]
 
         // снять выделение с несозданного ребра
@@ -55,6 +58,11 @@ class InteractionCanvas {
         // проверить, что клик произошел на вершину
         let sv: Vertex | undefined = this.selectedVertex(x, y)
         if (!sv) {
+            if (alg) {
+                setAlg!(undefined)
+                this.drawGraph(this._graph)
+                return
+            }
             this.addNewVertex(x, y)
         } else {
             // перекрашиваем вершину 
@@ -70,6 +78,11 @@ class InteractionCanvas {
             else {
                 // открываем модальное окно для создания ребра
                 setIsVisibleModal(true)
+            }
+            if (alg && alg.dataCollected()) {
+                alg.displayResult(this)
+                setAlg!(undefined)
+                this.drawGraph(this._graph)
             }
         }
     }
@@ -125,18 +138,23 @@ class InteractionCanvas {
         this.drawEdge(this._selectedVertices[0], this._selectedVertices[1], weight, isDirected)
     }
 
-    private drawEdge(u: Vertex, v: Vertex, weight: number, isDirected: boolean = true): void {
-        if (u.n === v.n) return
+    private drawEdge(u: Vertex, v: Vertex, weight: number, isDirected: boolean = true, color?: string): void {
+        //if (u.n === v.n) return
 
         let dx = v.x - u.x // перемещение по x
         let dy = v.y - u.y // перемещение по y
 
         // цвет ребра
-        let r = ((50 + weight % 255) % 255).toString(16).padStart(2, '0')
-        let g = ((10 + weight % 255) % 255).toString(16).padStart(2, '0')
-        let b = (200).toString(16).padStart(2, '0')
-        let color = `#${r}${g}${b}`
-        this._ctx.strokeStyle = color
+        if (!color) {
+            let r = ((50 + weight % 255) % 255).toString(16).padStart(2, '0')
+            let g = ((10 + weight % 255) % 255).toString(16).padStart(2, '0')
+            let b = (200).toString(16).padStart(2, '0')
+            let colorEdge = `#${r}${g}${b}`
+            this._ctx.strokeStyle = colorEdge
+        } else {
+            this._ctx.strokeStyle = color
+        }
+        
 
         this._ctx.beginPath()
 
@@ -168,8 +186,8 @@ class InteractionCanvas {
         this._ctx.fillStyle = '#272736'
         this._ctx.fillText(`${weight}`, (u.x + v.x) / 2, (u.y + v.y) / 2)
 
-        this.drawVertex(u)
-        this.drawVertex(v)
+        this.drawVertex(u, color)
+        this.drawVertex(v, color)
         this._ctx.closePath()
     }
 
@@ -183,23 +201,23 @@ class InteractionCanvas {
         this._ctx.closePath()
     }
 
-    public drawGraph(): void {
+    public drawGraph(graph: Graph = this._graph, color?: string): void {
         // очистка canvas
         this._ctx.clearRect(0, 0, this._width, this._height)
-        for (let e of this._graph.edges) {
+        for (let e of graph.edges) {
             let u: Vertex = this.vertexOnCanvas(e.from) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.from)
             let v: Vertex = this.vertexOnCanvas(e.to) || this.createNewVertexOnCanvas(Math.random() * (this._width - 2 * this._rv) + this._rv, Math.random() * (this._height - 2 * this._rv) + this._rv, e.to)
 
-            if (this._graph.isDirected(u.n, v.n)) this.drawEdge(u, v, e.weight, true)
-            else this.drawEdge(u, v, e.weight, false)
+            if (graph.isDirected(u.n, v.n)) this.drawEdge(u, v, e.weight, true, color)
+            else this.drawEdge(u, v, e.weight, false, color)
         }
-        console.log(this._graph.edges)
+        console.log(graph.edges)
     }
 
-    private vertexOnCanvas(nv: number): Vertex | undefined {
+    private vertexOnCanvas(nv: number): Vertex | false {
         for (let i = 0; i < this._vertices.length; i++)
             if (this._vertices[i].n === nv) return this._vertices[i]
-        return undefined
+        return false
     }
 }
 

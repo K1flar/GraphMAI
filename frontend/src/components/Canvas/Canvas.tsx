@@ -7,15 +7,18 @@ import cls from './Canvas.module.css'
 import InteractionCanvas from '../../modules/InteractionCanvas/InteractionCanvas'
 import Graph from '../../modules/Graph/Graph'
 import { status } from '../../types';
+import { Algorithm } from '../../modules/Algorithm/Algorithm';
 
 interface CanvasProps {
     graph: Graph;
     name: string;
     info: string;
     status: status;
+    algorithm?: Algorithm
+    setAlg: (a: Algorithm | undefined) => void
 }
 
-const Canvas = ({ graph, name, info, status }: CanvasProps) => {
+const Canvas = ({ graph, name, info, status, algorithm, setAlg }: CanvasProps) => {
     let [isVisibleModal, setIsVisibleModal] = useState<boolean>(false)
     let canvasRef = useRef<HTMLCanvasElement>(null);
     let canvRef = useRef<InteractionCanvas>()
@@ -29,7 +32,14 @@ const Canvas = ({ graph, name, info, status }: CanvasProps) => {
     useEffect(() => {
         canvRef.current = new InteractionCanvas(canvasRef.current!, graph)
         canvRef.current.drawGraph()
+        setAlg(undefined)
     }, [graph])
+
+    useEffect(() => {
+        if (algorithm && algorithm.dataCollected()) {
+            algorithm.displayResult(canvRef.current!)
+        }
+    }, [algorithm])
 
     let dictInfoStyle = {
         'default': cls.info,
@@ -54,7 +64,7 @@ const Canvas = ({ graph, name, info, status }: CanvasProps) => {
                     <p>{info}</p>
                 </div>
                 <div className={cls.can}>
-                    <canvas ref={canvasRef} onMouseUp={e => canvRef.current!.handleClick(e, setIsVisibleModal)}></canvas>
+                    <canvas ref={canvasRef} onMouseUp={e => canvRef.current!.handleClick(e, setIsVisibleModal, algorithm, setAlg )}></canvas>
                 </div>
             </div>
         </div>
