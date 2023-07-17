@@ -7,6 +7,7 @@ namespace GraphMAI.Models.ExchangeModels
         public IEnumerable<IEnumerable<int>> StrongComponents { get; set; }
 
         public IEnumerable<IEnumerable<int>> WeekComponents { get; set; }
+        public bool isDirected { get; set; }
 
         public int nStrongComponents { get; set; }
         public int nWeekComponents {get; set; }
@@ -22,6 +23,7 @@ namespace GraphMAI.Models.ExchangeModels
             nWeekComponents = 0;
             iStrongComponents = "";
             iWeekComponents = "";
+            isDirected= false;
 
         }
     }

@@ -74,6 +74,7 @@ namespace GraphMAI.Services
                             if (st >= rand)
                             {
                                 res.listOfEdge.Add((now, item.Item1));
+                                res.listOfEdge.Add((item.Item1, now));
                                 res.dlina += _matix[now][item.Item1];
 
                                 now = item.Item1;

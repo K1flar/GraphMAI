@@ -9,7 +9,8 @@ namespace GraphMAI.Models.ExchangeModels
             Edges = new List<EdgeGetModel> ();
             foreach (var item in values)
             {
-                Edges.Add(new EdgeGetModel() { From = item.Item1, To = item.Item2, Weight = 1});
+                Edges.Add(new EdgeGetModel() { From = item.Item1 + 1, To = item.Item2 + 1, Weight = 1});
+                Edges.Add(new EdgeGetModel() { From = item.Item2 + 1, To = item.Item1 + 1, Weight = 1});
             }
         }
 

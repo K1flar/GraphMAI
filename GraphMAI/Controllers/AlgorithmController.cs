@@ -18,10 +18,10 @@ namespace GraphMAI.Controllers
             Graph graph = new Graph(model);
             bool flag = GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix());
 
-            if (!flag) return BadRequest("Graph is not connected");
+            if (!flag) return BadRequest("Граф не связен");
 
             int summ;
-            var edg = Services.SearchSpanningTree.Kruskal(model, out summ);
+            var edg = Services.SearchSpanningTree.Kruskal(model, out summ, graph.GetCorrelatedMatrix().Count);
 
             var corEd = new List<EdgeGetModel>();
             foreach (var edge in edg)
@@ -42,7 +42,7 @@ namespace GraphMAI.Controllers
 
             bool flag = GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix());
 
-            if (!flag) return BadRequest("Graph is not connected");
+            if (!flag) return BadRequest("Граф не связен");
 
             int summ;
             var edg = Services.SearchSpanningTree.Prim(graph.GetCorrelatedMatrix(), out summ);
@@ -67,7 +67,7 @@ namespace GraphMAI.Controllers
 
             bool flag = GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix());
 
-            if (!flag) return BadRequest("Graph is not connected");
+            if (!flag) return BadRequest("Граф не связен");
 
             int summ;
             var edg = Services.SearchSpanningTree.Boruvka(graph.GetCorrelatedMatrix(), out summ);
@@ -105,7 +105,7 @@ namespace GraphMAI.Controllers
                 if (isStrongConnected) result.iStrongComponents = "Граф сильно связен";
                 else result.iStrongComponents = "Граф сильно не связен";
                 result.nStrongComponents = result.StrongComponents.Count();
-
+                result.isDirected = true;
                 return Ok(result);
             }
             else
@@ -125,9 +125,9 @@ namespace GraphMAI.Controllers
         {
             Graph graph = new Graph(model);
 
-            if (graph.IsDirected()) return BadRequest("Graph must be undirected");
+            if (graph.IsDirected()) return BadRequest("Граф должен быть не ориентированным");
 
-            if (!graph.IsFull()) return BadRequest("Graph must be full");
+            if (!graph.IsFull()) return BadRequest("Граф должен быть полным");
 
             var ans = new HamiltonResultModel();
             ans = SearchHamiltonCycle.Run(graph.AdjacencyMatrix(), 0.33,1,1,1,0.5,500);
@@ -141,29 +141,29 @@ namespace GraphMAI.Controllers
         {
             Graph graph = new Graph(model);
 
-            if (!graph.IsDirected()) return BadRequest("Graph must be directed");
+            if (!graph.IsDirected()) return BadRequest("Граф должен быть ориентированным");
 
             FlowChecker flowChecker = new FlowChecker(graph);
 
-            if (flowChecker._source == -1 || flowChecker._sink == -1) 
-                return BadRequest("Not found source or sink");
-
             if (!GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix()))
-                return BadRequest("Graph is not connected");
+                return BadRequest("Граф не связен");
 
-            if (flowChecker.HasCycle()) return BadRequest("Graph has cycle");
+            if (flowChecker._source == -1 || flowChecker._sink == -1) 
+                return BadRequest("Источник или сток не найдены");
+
+            if (flowChecker.HasCycle()) return BadRequest("Граф имеет цикл");
 
 
             var result = new FlowCheckerResultModel();
-            result.Info = $"Max flow from {flowChecker.GetSource()} to {flowChecker.GetSink()}";
-            result.Size = flowChecker.FindMaxFlow(out var matrix);
+            int size = flowChecker.FindMaxFlow(out var matrix);
+            result.Info = $"Максимальный поток от {flowChecker.GetSource()} к {flowChecker.GetSink()} -- {size}";
 
             for (int i = 0; i < matrix.Count; i++)
             {
                 for (int j = 0; j < matrix.Count; j++)
                 {
                     if (matrix[i][j] != 0)
-                        result.edges.Add(new EdgeGetModel() { From = i, To = j, Weight = matrix[i][j] });
+                        result.edges.Add(new EdgeGetModel() { From = i + 1, To = j + 1, Weight = matrix[i][j] });
                 }
             }
 
@@ -176,11 +176,11 @@ namespace GraphMAI.Controllers
             Graph graph = new Graph(model);
 
             if (!GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix()))
-                return BadRequest("Graph must be connected");
+                return BadRequest("Граф должен быть связен");
 
             var pairChecker = new PairsChecker(graph);
 
-            if (!pairChecker._isGraphBipartite) return BadRequest("Graph must be bipartite");
+            if (!pairChecker._isGraphBipartite) return BadRequest("Граф должен быть двудольным");
 
             var ans = pairChecker.FindMaxMatching();
 

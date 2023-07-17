@@ -4,9 +4,9 @@ namespace GraphMAI.Services
 {
     public static class SearchSpanningTree
     {
-        public static List<List<int>> Kruskal(List<EdgeGetModel> edg, out int summ)
+        public static List<List<int>> Kruskal(List<EdgeGetModel> edg, out int summ, int size)
         {
-            int n = edg.Count;
+            int n = size;
             var sets = new int[n];
             int summa = 0;
 
@@ -35,7 +35,8 @@ namespace GraphMAI.Services
 
                 if (set1 != set2)
                 {
-                    result.Add(new List<int> { edge.Item1 + 1, edge.Item2 + 1, edge.Item3 });
+                    result.Add(new List<int> { edge.Item1, edge.Item2, edge.Item3 });
+                    result.Add(new List<int> { edge.Item2, edge.Item1, edge.Item3 });
                     summa += edge.Item3;
 
                     for (int i = 0; i < n; i++)
@@ -107,6 +108,7 @@ namespace GraphMAI.Services
 
                 // Добавляем найденное ребро в список остовного дерева
                 mst.Add(new List<int>() { u + 1, v + 1, minWeight });
+                mst.Add(new List<int>() { v + 1, u + 1, minWeight });
                 summa += minWeight;
 
                 // Добавляем новую вершину в visited
@@ -189,6 +191,8 @@ namespace GraphMAI.Services
 
                         mst.Add(new List<int> { edges[numMinEdges[i]][0] + 1,
                             edges[numMinEdges[i]][1] + 1, edges[numMinEdges[i]][2]});
+                        mst.Add(new List<int> { edges[numMinEdges[i]][1] + 1,
+                            edges[numMinEdges[i]][0] + 1, edges[numMinEdges[i]][2]});
                         summa += edges[numMinEdges[i]][2];
 
                         countTree--;
