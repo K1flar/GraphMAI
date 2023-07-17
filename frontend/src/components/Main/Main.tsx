@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import useInfo from '../../Hooks/useInfo'
-import { Edge, Option, IGetAll, ICheckerConnectivity } from '../../types'
+import { Edge, Option, IGetAll } from '../../types'
 import Button from '../UI/Button/Button'
 import Select from '../UI/Select/Select'
 import Canvas from '../Canvas/Canvas'

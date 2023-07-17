@@ -29,7 +29,7 @@ const SaveGraph = ({graph, fetchNames, setInfo}: SaveGraphProps) => {
         }
         console.log(data)
         try {
-            const resp = await API.post('Save', data)
+            const resp = await API.post('GraphStorage/Save', data)
             fetchNames()
             setName('')
             setInfo(`Граф "${data.name}" сохранен`, 'ok')
