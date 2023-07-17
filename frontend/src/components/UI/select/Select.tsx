@@ -32,7 +32,7 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
         <div className={classes.join(' ')} ref={ref}>
             <div style={{minWidth: `${options.reduce((acc, op) => acc < op.title.length ? op.title.length : acc, -Infinity) * 10 + 20}px`}} 
                  className={cls.selected} 
-                 onClick={(e: React.MouseEvent) => {setIsOpen(!isOpen)}}>
+                 onClick={(e: React.MouseEvent) => {setIsOpen(!isOpen && Boolean(options.length))}}>
                     {toggle}
             </div>
             {

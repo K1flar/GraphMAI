@@ -15,6 +15,10 @@
     padding: 0 20px;
 }
 
+.error {color: #E13C3C;}
+
+.ok {color: #29C30F;}
+
 .can {
     margin-top: 25px;
     padding: 0 20px 20px;
