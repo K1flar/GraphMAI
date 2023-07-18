@@ -12,7 +12,7 @@ import { Algorithm } from '../../modules/Algorithm/Algorithm';
 interface CanvasProps {
     graph: Graph;
     name: string;
-    info: string;
+    info: React.ReactNode;
     status: status;
     algorithm?: Algorithm
     setAlg: (a: Algorithm | undefined) => void

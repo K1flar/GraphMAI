@@ -11,10 +11,10 @@ import Vertex from '../InteractionCanvas/Vertex'
 export abstract class Algorithm {
     public status: status = 'default'
     protected _graph: Graph
-    protected _setInfo: (i: string, st: status) => void
+    protected _setInfo: (i: React.ReactNode, st: status) => void
     protected _url: string
 
-    constructor(info: string, graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(info: string, graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         this._setInfo = setInfo
         setInfo(info, 'default')
         this._graph = graph
@@ -31,7 +31,7 @@ export abstract class Algorithm {
 }
 
 export class AlgorithmCheckerConnectivity extends Algorithm {
-    constructor(graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         super('', graph, setInfo, url)
     }
 
@@ -45,16 +45,32 @@ export class AlgorithmCheckerConnectivity extends Algorithm {
             let components: number[][] = []
             if (data.isDirected) {
                 components = data.strongComponents
-                this._setInfo(`${data.iWeekComponents}. ${data.iStrongComponents}. Количество компонент сильной связности: ${data.nStrongComponents}. Количество компонент обычной связности: ${data.nWeekComponents}. Компоненты сильной связности:`, 'default')
+                this._setInfo(
+                    <div>
+                        {data.iWeekComponents}. {data.iStrongComponents}. 
+                        <br />
+                        Количество компонент сильной связности: {data.nStrongComponents}. 
+                        <br />
+                        Количество компонент обычной связности: {data.nWeekComponents}. 
+                        <br />
+                        Компоненты сильной связности:
+                    </div>
+                    , 'default')
             } else {
                 components = data.weekComponents
-                this._setInfo(`${data.iWeekComponents}. Количество компонент связности: ${data.nWeekComponents}. Компоненты связности:`, 'default')
+                this._setInfo(
+                    <div>
+                        {data.iWeekComponents}. Количество компонент связности: {data.nWeekComponents}. 
+                        <br/>
+                        Компоненты связности:
+                    </div>
+                , 'default')
             }
             console.log(components)
-            const rand = () => Math.floor((Math.random()*(255 - 20) + 20)).toString(16).padStart(2, '0')
-            for (let component of components) {
-                console.log(rand())
-                const color = `#${rand()}${rand()}${rand()}`
+            let rand = Math.floor(Math.random()*360)
+            let n = components.length
+            for (let i = 0, component = components[0]; i < n; component=components[++i]) {
+                const color = `hsl(${(rand + i * 360/n) % 360}, 60%, 40%)`
                 console.log(color)
                 for (let v of component) {
                     canv.drawVertex(canv.vertexOnCanvas(v+1) as Vertex, color)
@@ -72,7 +88,7 @@ export class AlgorithmCheckerConnectivity extends Algorithm {
 }
 
 export class AlgorithmSpanningTree extends Algorithm {
-    constructor(graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         super('', graph, setInfo, url)
     }
 
@@ -98,7 +114,7 @@ export class AlgorithmSpanningTree extends Algorithm {
 }
 
 export class AlgorithmAntColony extends Algorithm {
-    constructor(graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         super('', graph, setInfo, url)
     }
 
@@ -124,7 +140,7 @@ export class AlgorithmAntColony extends Algorithm {
 }
 
 export class AlgorithmFindFlow extends Algorithm {
-    constructor(graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         super('', graph, setInfo, url)
     }
 
@@ -150,7 +166,7 @@ export class AlgorithmFindFlow extends Algorithm {
 }
 
 export class AlgorithmFindPairs extends Algorithm {
-    constructor(graph: Graph, setInfo: (i: string, st: status) => void, url: string) {
+    constructor(graph: Graph, setInfo: (i: React.ReactNode, st: status) => void, url: string) {
         super('', graph, setInfo, url)
     }
 
