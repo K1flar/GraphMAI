@@ -156,7 +156,7 @@ namespace GraphMAI.Controllers
 
             var result = new FlowCheckerResultModel();
             int size = flowChecker.FindMaxFlow(out var matrix);
-            result.Info = $"Максимальный поток от {flowChecker.GetSource()} к {flowChecker.GetSink()} -- {size}";
+            result.Info = $"Максимальный поток от {flowChecker.GetSource() + 1} к {flowChecker.GetSink() + 1} -- {size}";
 
             for (int i = 0; i < matrix.Count; i++)
             {
@@ -175,8 +175,8 @@ namespace GraphMAI.Controllers
         {
             Graph graph = new Graph(model);
 
-            if (!GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix()))
-                return BadRequest("Граф должен быть связен");
+            //if (!GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix()))
+            //    return BadRequest("Граф должен быть связен");
 
             var pairChecker = new PairsChecker(graph);
 
