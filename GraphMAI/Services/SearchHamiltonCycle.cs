@@ -87,6 +87,7 @@ namespace GraphMAI.Services
                         howmuch--;
                     }
                     res.listOfEdge.Add((now, i));
+                    res.listOfEdge.Add((i, now));
                     res.dlina += _matix[now][i];
                     results.Add(res);
                 }
