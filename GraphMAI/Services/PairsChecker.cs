@@ -97,13 +97,27 @@ namespace GraphMAI.Services
 
         private bool IsGraphBipartite(int v, int color, int[] colors)
         {
+            var components = GraphFunctionality.GetСonnectivityComponentsByMatrix(_matrix);
+            bool result = true;
+
+            foreach(var component in components)
+            {
+                if(!IsComponentBipartite(component.FirstOrDefault(), color, colors)) 
+                    result = false;
+            }
+
+            return result;
+        }
+
+        private bool IsComponentBipartite(int v, int color, int[] colors)
+        {
             colors[v] = color;
 
             foreach (var u in _matrix.AdjacencyList(v))
             {
                 if (colors[u] == 0)
                 {
-                    IsGraphBipartite(u, InvertColor(color), colors);
+                    IsComponentBipartite(u, InvertColor(color), colors);
                 }
                 else if (colors[u] == color)
                 {
