@@ -165,7 +165,7 @@ namespace GraphMAI.Controllers
             {
                 for (int j = 0; j < matrix.Count; j++)
                 {
-                    if (graph.IsEdge(i, j))
+                    if (graph.IsEdge(i, j) & matrix[j][i] != 0)
                         result.edges.Add(new EdgeGetModel() { From = i + 1, To = j + 1, Weight = matrix[j][i] });
                 }
             }
