@@ -7,8 +7,8 @@ namespace GraphMAI.Services
     {
         private readonly Graph _graph;
         private readonly List<List<int>> _matrix;
-        public readonly int _source;
-        public readonly int _sink;
+        private readonly int _source;
+        private readonly int _sink;
         public FlowChecker(Graph graph)
         {
             _graph = graph;

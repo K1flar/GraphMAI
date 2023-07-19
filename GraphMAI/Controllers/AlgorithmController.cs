@@ -151,7 +151,7 @@ namespace GraphMAI.Controllers
             if (!GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix()))
                 return BadRequest("Граф не связен");
 
-            if (flowChecker._source == -1 || flowChecker._sink == -1) 
+            if (flowChecker.GetSource() == -1 || flowChecker.GetSink() == -1) 
                 return BadRequest("Источник или сток не найдены");
 
             if (flowChecker.HasCycle()) return BadRequest("Граф имеет цикл");
@@ -165,8 +165,8 @@ namespace GraphMAI.Controllers
             {
                 for (int j = 0; j < matrix.Count; j++)
                 {
-                    if (matrix[i][j] != 0)
-                        result.edges.Add(new EdgeGetModel() { From = i + 1, To = j + 1, Weight = matrix[i][j] });
+                    if (graph.IsEdge(i, j))
+                        result.edges.Add(new EdgeGetModel() { From = i + 1, To = j + 1, Weight = matrix[j][i] });
                 }
             }
 
