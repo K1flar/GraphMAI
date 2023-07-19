@@ -46,7 +46,7 @@ namespace GraphMAI.Services
             {
                 for (int j = 0; j < _matrix.Count; j++)
                 {
-                    if (_graph.IsEdge(i, j) & _colors[i] != 1 & _colors[j] == 1)
+                    if (_matrix[i][j] != 0 & _colors[i] != 1 & _colors[j] == 1)
                     {
                         _matrix[j][i] = 0;
                     }
