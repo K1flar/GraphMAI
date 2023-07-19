@@ -40,7 +40,10 @@ const Main = () => {
     }, [])
 
     useEffect(() => {
-        if (!alg) setInfo('', 'default')
+        if (!alg) {
+            setInfo('', 'default')
+            setName('Выберете алгоритм')
+        }
     }, [alg])
 
     let optionsSetGraph: Option[] = [
@@ -75,8 +78,9 @@ const Main = () => {
         'FindPairs': AlgorithmFindPairs
     }
 
-    async function actionSelectAlgorithm(value: string) {
+    async function actionSelectAlgorithm(value: string, title: string) {
         setAlg(new dictAlgorithm[value as keyof typeof dictAlgorithm](graph, setInfo, value));
+        setName(title)
     }
 
     function actionSelectSetGraph(value: string): void {

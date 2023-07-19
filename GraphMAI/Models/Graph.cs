@@ -18,7 +18,7 @@ namespace GraphMAI.Models
 
             foreach (var a in edges)
             {
-                result[a.From - 1][a.To - 1] = haveWeight ? a.Weight : 1;
+                result[a.From - 1][a.To - 1] = a.Weight;
             }
 
             _matrix = new List<List<int>>(result);
