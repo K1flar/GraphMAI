@@ -28,7 +28,7 @@ namespace GraphMAI.Services
             while (allVertexes.Any())
             {
                 var vertexInOneComponent = DFSWithCounters(counters.MaxValueIndex(), ref counter, updatedCounters, reversiveGraphMatrix);
-                result.Add(vertexInOneComponent);
+                result.Add(vertexInOneComponent.Select(n => n + 1));
                 foreach (var v in vertexInOneComponent)
                 {
                     allVertexes.Remove(v);
@@ -80,7 +80,7 @@ namespace GraphMAI.Services
             {
                 var vertexInOneComponent = BFS(allVertex.First(), matrix);
 
-                result.Add(vertexInOneComponent);
+                result.Add(vertexInOneComponent.Select(n => n + 1));
 
                 foreach (var v in vertexInOneComponent)
                     allVertex.Remove(v);
