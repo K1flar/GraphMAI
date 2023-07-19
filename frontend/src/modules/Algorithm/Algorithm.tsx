@@ -73,7 +73,7 @@ export class AlgorithmCheckerConnectivity extends Algorithm {
                 const color = `hsl(${(rand + i * 360/n) % 360}, 60%, 40%)`
                 console.log(color)
                 for (let v of component) {
-                    canv.drawVertex(canv.vertexOnCanvas(v+1) as Vertex, color)
+                    canv.drawVertex(canv.vertexOnCanvas(v) as Vertex, color)
                 }
             }
         } catch(e) {

@@ -79,6 +79,10 @@ const Main = () => {
     }
 
     async function actionSelectAlgorithm(value: string, title: string) {
+        if (graph.edges.length === 0) {
+            setInfo('Граф не задан', 'error')
+            return
+        } 
         setAlg(new dictAlgorithm[value as keyof typeof dictAlgorithm](graph, setInfo, value));
         setName(title)
     }
@@ -103,6 +107,7 @@ const Main = () => {
     function clearCanvas() {
         setAlg(undefined)
         setGraph(new Graph([]))
+        setInfo('', 'default')
     }
 
     return (
