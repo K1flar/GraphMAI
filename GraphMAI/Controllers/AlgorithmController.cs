@@ -97,10 +97,12 @@ namespace GraphMAI.Controllers
                 if (isWeekConnected) result.iWeekComponents = "Граф связен";
                 else result.iWeekComponents = "Граф не связен";
 
-                result.WeekComponents = GraphFunctionality.GetСonnectivityComponentsByMatrix(graph.GetCorrelatedMatrix());
+                result.WeekComponents = GraphFunctionality.GetСonnectivityComponentsByMatrix(graph.GetCorrelatedMatrix())
+                    .Select(seq => seq.Select(n => n + 1));
                 result.nWeekComponents = result.WeekComponents.Count();
 
-                result.StrongComponents = GraphFunctionality.GetStrongСonnectivityComponents(graph.AdjacencyMatrix());
+                result.StrongComponents = GraphFunctionality.GetStrongСonnectivityComponents(graph.AdjacencyMatrix())
+                    .Select(seq => seq.Select(n => n + 1));
                 bool isStrongConnected = result.StrongComponents.Count() == 1;
                 if (isStrongConnected) result.iStrongComponents = "Граф сильно связен";
                 else result.iStrongComponents = "Граф сильно не связен";
@@ -113,7 +115,8 @@ namespace GraphMAI.Controllers
                 bool isConnected = GraphFunctionality.IsMatrixСonnected(graph.GetCorrelatedMatrix());
                 if (isConnected) result.iWeekComponents = "Граф связен";
                 else result.iWeekComponents = "Граф не связен";
-                result.WeekComponents = GraphFunctionality.GetСonnectivityComponentsByMatrix(graph.AdjacencyMatrix());
+                result.WeekComponents = GraphFunctionality.GetСonnectivityComponentsByMatrix(graph.AdjacencyMatrix())
+                    .Select(seq => seq.Select(n => n + 1));
                 result.nWeekComponents = result.WeekComponents.Count();
 
                 return Ok(result);
