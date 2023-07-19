@@ -8,7 +8,7 @@ interface SelectProps {
     selected?: Option;
     options: Option[];
     placeholder: string;
-    action?(value: string | number): void;
+    action?(value: string | number, title: string): void;
 }
 
 const Select = ({selected, options, placeholder, action}: SelectProps) => {
@@ -22,7 +22,7 @@ const Select = ({selected, options, placeholder, action}: SelectProps) => {
     function handleClick({title, value}: Option) {
         setIsOpen(false)
         setToggle(title)
-        action?.(value)
+        action?.(value, title)
     }
 
     let classes = [cls.select]
